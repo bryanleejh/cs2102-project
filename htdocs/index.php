@@ -15,8 +15,8 @@
   </ul>
   <?php
   	// Connect to the database. Please change the password in the following line accordingly
-    $db     = pg_connect("host=localhost port=8080 dbname=postgres user=postgres password=test");
-    $result = pg_query($db, "SELECT * FROM book where book_id = '$_POST[bookid]'");		// Query template
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+    $result = pg_query($db, "SELECT * FROM books where book_id = '$_POST[bookid]'");		// Query template
     $row    = pg_fetch_assoc($result);		// To store the result row
     if (isset($_POST['submit'])) {
         echo "<ul><form name='update' action='index.php' method='POST' >
@@ -32,7 +32,7 @@
     	</ul>";
     }
     if (isset($_POST['new'])) {	// Submit the update SQL command
-        $result = pg_query($db, "UPDATE book SET book_id = '$_POST[bookid_updated]',
+        $result = pg_query($db, "UPDATE books SET book_id = '$_POST[bookid_updated]',
     name = '$_POST[book_name_updated]',price = '$_POST[price_updated]',
     date_of_publication = '$_POST[dop_updated]'");
         if (!$result) {

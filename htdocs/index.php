@@ -15,7 +15,7 @@
   </ul>
   <?php
   	// Connect to the database. Please change the password in the following line accordingly
-    $db     = pg_connect("host=localhost port=8080 dbname=Project1 user=postgres password=test");
+    $db     = pg_connect("host=localhost port=8080 dbname=postgres user=postgres password=test");
     $result = pg_query($db, "SELECT * FROM book where book_id = '$_POST[bookid]'");		// Query template
     $row    = pg_fetch_assoc($result);		// To store the result row
     if (isset($_POST['submit'])) {

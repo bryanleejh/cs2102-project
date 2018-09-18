@@ -5,7 +5,21 @@
   <style>li {list-style: none;}</style>
 </head>
 <body>
-  <h2>Supply bookid and enter</h2>
+  <h2>Supply data and enter to create</h2>
+  <ul>
+    <form name="create" action="index.php" method="POST" >
+      <li>Book ID:</li>
+    	<li><input type='text' name='bookid_created'/></li>
+    	<li>Book Name:</li>
+    	<li><input type='text' name='book_name_created'/></li>
+    	<li>Price (USD):</li>
+      <li><input type='text' name='price_created'/></li>
+    	<li>Date of publication:</li>
+    	<li><input type='text' name='dop_created'/></li>
+    	<li><input type='submit' name='create_new' /></li>
+    </form>
+  </ul>
+  <h2>Supply bookid and enter to search</h2>
   <ul>
     <form name="display" action="index.php" method="POST" >
       <li>Book ID:</li>
@@ -24,12 +38,18 @@
     	<li><input type='text' name='bookid_updated' value='$row[book_id]' /></li>
     	<li>Book Name:</li>
     	<li><input type='text' name='book_name_updated' value='$row[name]' /></li>
-    	<li>Price (USD):</li><li><input type='text' name='price_updated' value='$row[price]' /></li>
+    	<li>Price (USD):</li>
+      <li><input type='text' name='price_updated' value='$row[price]' /></li>
     	<li>Date of publication:</li>
     	<li><input type='text' name='dop_updated' value='$row[date_of_publication]' /></li>
     	<li><input type='submit' name='new' /></li>
     	</form>
     	</ul>";
+    }
+    if (isset($_POST['create_new'])) {
+        $result = pg_query($db, "INSERT INTO books VALUES ('$_POST[bookid_created]',
+    '$_POST[book_name_created]', '$_POST[price_created]',
+    '$_POST[dop_created]')");
     }
     if (isset($_POST['new'])) {	// Submit the update SQL command
         $result = pg_query($db, "UPDATE books SET book_id = '$_POST[bookid_updated]',

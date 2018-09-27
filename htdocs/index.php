@@ -52,9 +52,8 @@
     '$_POST[dop_created]')");
     }
     if (isset($_POST['new'])) {	// Submit the update SQL command
-        $result = pg_query($db, "UPDATE books SET book_id = '$_POST[bookid_updated]',
-    name = '$_POST[book_name_updated]',price = '$_POST[price_updated]',
-    date_of_publication = '$_POST[dop_updated]'");
+        $result = pg_query($db, "UPDATE books SET name = '$_POST[book_name_updated]',price = '$_POST[price_updated]',
+    date_of_publication = '$_POST[dop_updated]' WHERE book_id = '$_POST[bookid_updated]'");
         if (!$result) {
             echo "Update failed!!";
         } else {

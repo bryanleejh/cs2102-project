@@ -71,16 +71,6 @@
       <li><input type="submit" name="search_bid" /></li>
     </form>
   </ul>
-  <h2>Supply link data and enter to create</h2>
-  <ul>
-    <form name="create_link" action="index.php" method="POST" >
-      <li>Task ID:</li>
-      <li><input type="text" name="task_id" /></li>
-      <li>Bid ID:</li>
-      <li><input type="text" name="bid_id" /></li>
-      <li><input type="submit" name="create_link" /></li>
-    </form>
-  </ul>
   <?php
   	// Connect to the database. Please change the password in the following line accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
@@ -206,16 +196,6 @@
             echo "Update bid failed!!";
         } else {
             echo "Update bid successful!";
-        }
-    }
-    // for link
-    if (isset($_POST['create_link'])) { // create
-        $result = pg_query($db, "INSERT INTO is_picked_for VALUES ('$_POST[task_id]',
-    '$_POST[bid_id]')");
-        if (!$result) {
-            echo "Create link failed!!";
-        } else {
-            echo "Create link successful!";
         }
     }
     ?>

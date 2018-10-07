@@ -4,9 +4,9 @@ INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VAL
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (4, 4, '2018-10-28', '20:30:00', 'babysitting');
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (5, 5, '2018-10-28', '19:40:00', 'carwash');
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (6, 6, '2018-10-28', '18:50:00', 'cooking thai food');
-INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (7, 7, '2018-10-28', '17:60:00', 'pick up kids from school');
-INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (8, 8, '2018-10-28', '16:70:00', 'groom cat');
-INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (9, 9, '2018-10-28', '15:80:00', 'wash pet cage');
+INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (7, 7, '2018-10-28', '17:20:00', 'pick up kids from school');
+INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (8, 8, '2018-10-28', '16:20:00', 'groom cat');
+INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (9, 9, '2018-10-28', '15:40:00', 'wash pet cage');
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (10, 10, '2018-10-28', '14:00:00', 'wash bedsheets');
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (11, 11, '2018-10-28', '13:00:00', 'cooking japanese food');
 INSERT INTO public.task( task_id, owner_id, due_date, due_time, description) VALUES (12, 12, '2018-10-28', '12:00:00', 'pick up POPstation parcel');

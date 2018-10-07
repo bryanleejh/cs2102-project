@@ -8,52 +8,49 @@
   <h2>Supply data and enter to create</h2>
   <ul>
     <form name="create" action="index.php" method="POST" >
-      <li>Book ID:</li>
-    	<li><input type='text' name='bookid_created'/></li>
-    	<li>Book Name:</li>
-    	<li><input type='text' name='book_name_created'/></li>
-    	<li>Price (USD):</li>
-      <li><input type='text' name='price_created'/></li>
-    	<li>Date of publication:</li>
-    	<li><input type='text' name='dop_created'/></li>
+      <li>User ID:</li>
+    	<li><input type='text' name='userid_created'/></li>
+    	<li>User Name:</li>
+    	<li><input type='text' name='user_name_created'/></li>
+    	<li>User Email:</li>
+      <li><input type='text' name='email_created'/></li>
     	<li><input type='submit' name='create_new' /></li>
     </form>
   </ul>
-  <h2>Supply bookid and enter to search</h2>
+  <h2>Supply userid and enter to search</h2>
   <ul>
     <form name="display" action="index.php" method="POST" >
-      <li>Book ID:</li>
-      <li><input type="text" name="bookid" /></li>
-      <li><input type="submit" name="submit" /></li>
+      <li>User ID:</li>
+      <li><input type="text" name="userid" /></li>
+      <li><input type="submit" name="search" /></li>
     </form>
   </ul>
   <?php
   	// Connect to the database. Please change the password in the following line accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-    $result = pg_query($db, "SELECT * FROM books where book_id = '$_POST[bookid]'");		// Query template
+    $result = pg_query($db, "SELECT * FROM users where user_id = '$_POST[userid]'");		// Query template
     $row    = pg_fetch_assoc($result);		// To store the result row
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['search'])) { // search
         echo "<ul><form name='update' action='index.php' method='POST' >
-    	<li>Book ID:</li>
-    	<li><input type='text' name='bookid_updated' value='$row[book_id]' /></li>
-    	<li>Book Name:</li>
-    	<li><input type='text' name='book_name_updated' value='$row[name]' /></li>
-    	<li>Price (USD):</li>
-      <li><input type='text' name='price_updated' value='$row[price]' /></li>
-    	<li>Date of publication:</li>
-    	<li><input type='text' name='dop_updated' value='$row[date_of_publication]' /></li>
-    	<li><input type='submit' name='new' /></li>
+    	<li>User ID:</li>
+    	<li><input type='text' name='user_id_updated' value='$row[user_id]' /></li>
+    	<li>User Name:</li>
+    	<li><input type='text' name='user_name_updated' value='$row[user_name]' /></li>
+    	<li>User Email:</li>
+      <li><input type='text' name='user_email_updated' value='$row[user_email]' /></li>
+    	<li><input type='submit' name='update' /></li>
     	</form>
     	</ul>";
     }
-    if (isset($_POST['create_new'])) {
-        $result = pg_query($db, "INSERT INTO books VALUES ('$_POST[bookid_created]',
-    '$_POST[book_name_created]', '$_POST[price_created]',
-    '$_POST[dop_created]')");
+    if (isset($_POST['create_new'])) { // create
+        $result = pg_query($db, "INSERT INTO users VALUES ('$_POST[userid_created]',
+    '$_POST[user_name_created]', '$_POST[email_created]')");
     }
-    if (isset($_POST['new'])) {	// Submit the update SQL command
-        $result = pg_query($db, "UPDATE books SET name = '$_POST[book_name_updated]',price = '$_POST[price_updated]',
-    date_of_publication = '$_POST[dop_updated]' WHERE book_id = '$_POST[bookid_updated]'");
+    if (isset($_POST['update'])) {	// update
+        $result = pg_query($db, "UPDATE users SET (user_name = '$_POST[user_name_updated]', user_email = '$_POST[user_email_updated]')
+    WHERE user_id = $_POST[user_id_updated]");
+        var_dump($result);
+        var_dump($_POST);
         if (!$result) {
             echo "Update failed!!";
         } else {

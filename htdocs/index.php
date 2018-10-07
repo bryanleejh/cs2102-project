@@ -119,9 +119,11 @@
         }
     }
     if (isset($_POST['update_task'])) {	// update
-        $result = pg_query($db, "UPDATE tasks SET owner_id = '$_POST[owner_id_updated]', due_date = '$_POST[task_due_date_updated]',
-          due_time = '$_POST[task_due_time_updated]', description = '$_POST[description_updated]'
-    WHERE task_id = $_POST[task_id]");
+        $result = pg_query($db, "UPDATE tasks SET owner_id = '$_POST[owner_id_updated]',
+          due_date = '$_POST[task_due_date_updated]',
+          due_time = '$_POST[task_due_time_updated]',
+          description = '$_POST[description_updated]'
+    WHERE task_id = $_POST[task_id_updated]");
         var_dump($result);
         var_dump($_POST);
         if (!$result) {

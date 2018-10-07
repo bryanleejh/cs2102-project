@@ -47,7 +47,7 @@
     '$_POST[user_name_created]', '$_POST[email_created]')");
     }
     if (isset($_POST['update'])) {	// update
-        $result = pg_query($db, "UPDATE users SET (user_name = '$_POST[user_name_updated]', user_email = '$_POST[user_email_updated]')
+        $result = pg_query($db, "UPDATE users SET user_name = '$_POST[user_name_updated]', user_email = '$_POST[user_email_updated]'
     WHERE user_id = $_POST[user_id_updated]");
         var_dump($result);
         var_dump($_POST);

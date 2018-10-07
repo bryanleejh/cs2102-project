@@ -2,7 +2,7 @@
 <head>
   <title>UPDATE PostgreSQL data with PHP</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <style>li {list-style: none;}</style>var_dump($row);
+  <style>li {list-style: none;}</style>
 </head>
 <body>
   <h2>Supply user data and enter to create</h2>
@@ -71,13 +71,22 @@
       <li><input type="submit" name="search_bid" /></li>
     </form>
   </ul>
+  <h2>Supply link data and enter to create</h2>
+  <ul>
+    <form name="create_link" action="index.php" method="POST" >
+      <li>Task ID:</li>
+      <li><input type="text" name="task_id" /></li>
+      <li>Bid ID:</li>
+      <li><input type="text" name="bid_id" /></li>
+      <li><input type="submit" name="create_link" /></li>
+    </form>
+  </ul>
   <?php
   	// Connect to the database. Please change the password in the following line accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
     $result = pg_query($db, "SELECT * FROM users where user_id = '$_POST[userid]'");		// Query template
     $row    = pg_fetch_assoc($result);		// To store the result row
     if (isset($_POST['search_user'])) { // search
-      var_dump($row);
         echo "<ul>
       <form name='update_user' action='index.php' method='POST' >
     	<li>User ID:</li>
@@ -103,8 +112,8 @@
     if (isset($_POST['update_user'])) {	// update
         $result = pg_query($db, "UPDATE users SET user_name = '$_POST[user_name_updated]',
           user_email = '$_POST[user_email_updated]' WHERE user_id = $_POST[user_id_updated]");
-        var_dump($result);
-        var_dump($_POST);
+        // var_dump($result);
+        // var_dump($_POST);
         if (!$result) {
             echo "Update user failed!!";
         } else {
@@ -115,7 +124,6 @@
     if (isset($_POST['search_task'])) { // search
       $result = pg_query($db, "SELECT * FROM tasks where task_id = '$_POST[taskid]'");
       $row    = pg_fetch_assoc($result);		// To store the result row
-      var_dump($row);
         echo "<ul>
       <form name='update_task' action='index.php' method='POST' >
     	<li>Task ID:</li>
@@ -131,8 +139,8 @@
     	<li><input type='submit' name='update_task' /></li>
     	</form>
     	</ul>";
-      var_dump($result);
-      var_dump($_POST);
+      // var_dump($result);
+      // var_dump($_POST);
     }
     if (isset($_POST['create_task'])) { // create
         $result = pg_query($db, "INSERT INTO tasks VALUES ('$_POST[task_id_created]',
@@ -150,8 +158,8 @@
           due_time = '$_POST[task_due_time_updated]',
           description = '$_POST[description_updated]'
     WHERE task_id = $_POST[task_id_updated]");
-        var_dump($result);
-        var_dump($_POST);
+        // var_dump($result);
+        // var_dump($_POST);
         if (!$result) {
             echo "Update user failed!!";
         } else {
@@ -161,9 +169,7 @@
     // for bids
     if (isset($_POST['search_bid'])) { // search
       $result = pg_query($db, "SELECT * FROM bids where bid_id = '$_POST[bidid]'");
-      var_dump($result);
       $row    = pg_fetch_assoc($result);		// To store the result row
-      var_dump($row);
         echo "<ul><form name='update_bid' action='index.php' method='POST' >
     	<li>Bid ID:</li>
     	<li><input type='text' name='bid_id_updated' value='$row[bid_id]' /></li>
@@ -176,8 +182,8 @@
     	<li><input type='submit' name='update_bid' /></li>
     	</form>
     	</ul>";
-      var_dump($result);
-      var_dump($_POST);
+      // var_dump($result);
+      // var_dump($_POST);
     }
     if (isset($_POST['create_bid'])) { // create
         $result = pg_query($db, "INSERT INTO bids VALUES ('$_POST[bid_id_created]',
@@ -194,12 +200,22 @@
           task_id = '$_POST[task_id_updated]',
           amount = '$_POST[amount_updated]'
     WHERE bid_id = '$_POST[bid_id_updated]'");
-        var_dump($result);
-        var_dump($_POST);
+        // var_dump($result);
+        // var_dump($_POST);
         if (!$result) {
             echo "Update bid failed!!";
         } else {
             echo "Update bid successful!";
+        }
+    }
+    // for link
+    if (isset($_POST['create_link'])) { // create
+        $result = pg_query($db, "INSERT INTO is_picked_for VALUES ('$_POST[task_id]',
+    '$_POST[bid_id]')");
+        if (!$result) {
+            echo "Create link failed!!";
+        } else {
+            echo "Create link successful!";
         }
     }
     ?>

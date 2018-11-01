@@ -23,7 +23,7 @@
                 <label>Email</label>
                 <input type="text" name="email" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $email_err; ?></span>
-            </div>       
+            </div>
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
@@ -35,26 +35,29 @@
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="reset" class="btn btn-default" value="Reset">
+                <input type="submit" class="btn btn-primary" name="submit" value="submit">
+                <input type="reset" class="btn btn-default" name="reset" value="reset">
             </div>
             <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
     </div>
-    // memos
+    <!-- // memos
     // username should be unique? because find row based on username in login.php
-    // should check passwork == confirm password    
+    // should check password == confirm password -->
     <?php
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-    $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
 
-    
-    if (isset($_POST['Submit'])) {
+    if (isset($_POST['submit'])) {
+      if ($_POST['password'] == $_POST['confirm_password']) {
+        $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
         if (!$result) {
-                echo "Failed to create the account!";
-            } else {
-                echo "Successfully created the account!";
-            }
+          echo "Failed to create the account!";
+        } else {
+            echo "Successfully created the account!";
+        }
+      } else {
+        echo "Password not the same as Confirm Password!";
+      }
     }
     ?>
 </body>

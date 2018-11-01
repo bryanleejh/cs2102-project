@@ -20,7 +20,7 @@
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
+                <label>Email</label>
                 <input type="text" name="email" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $email_err; ?></span>
             </div>       

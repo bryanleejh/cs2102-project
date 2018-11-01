@@ -8,9 +8,10 @@
 CREATE TABLE users (
 user_id INTEGER PRIMARY KEY,
 user_name VARCHAR(64) NOT NULL,
+user_password VARCHAR(64) NOT NULL,
 user_email VARCHAR(64) NOT NULL);
 
-CREATE TABLE task (
+CREATE TABLE tasks (
 task_id INTEGER PRIMARY KEY,
 owner_id INTEGER NOT NULL,
 due_date DATE NOT NULL,
@@ -18,7 +19,7 @@ due_time TIME NOT NULL,
 description VARCHAR(256) NOT NULL,
 FOREIGN KEY owner_id REFERENCES users(user_id) ON DELETE CASCADE);
 
-CREATE TABLE bid (
+CREATE TABLE bids (
 bid_id INTEGER PRIMARY KEY,
 bidder_id INTEGER NOT NULL,
 task_id INTEGER NOT NULL,

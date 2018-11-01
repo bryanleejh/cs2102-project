@@ -47,23 +47,38 @@
     <?php
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
     if (isset($_POST['submit'])) {
       if ($_POST['password'] == $_POST['confirm_password']) {
-        $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = $username");
+        $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");
+        $row = pg_fetch_all($result);
         // var_dump($result);
-        if (!$result) {
+        // var_dump($row);
+        // print_r("here1");
+        if (!$row) {
           var_dump($result);
-          echo "Username entered is a duplicate of existing username!";
-        } else {
-          $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
-          if (!$result) {
-            echo "Failed to create the account!";
-          } else {
+          $result = pg_query($db, "SELECT user_email FROM users WHERE user_email = '$_POST[email]'");
+          $row = pg_fetch_all($result);
+          // var_dump($result);
+          // var_dump($row);
+          // echo "here2";
+          if (!$row) {
+            var_dump($result);
+            $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
+            // var_dump($result);
+            // var_dump($row);
+            // echo "here3";
+            if (!$result) {
+              echo "Failed to create the account!";
+            } else {
               echo "Successfully created the account!";
+            }
+          } else {
+            // var_dump($result);
+            echo "Email entered is a duplicate of existing email!";
           }
+        } else {
+          // var_dump($result);
+          echo "Username entered is a duplicate of existing username!";
         }
       } else {
         echo "Password not the same as Confirm Password!";

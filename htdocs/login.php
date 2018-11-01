@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>MY TASK : Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         body{ font: 14px sans-serif; }
@@ -30,7 +30,6 @@
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
-
     <?php
     // Define variables
     $username = $_POST['username'];

@@ -47,13 +47,23 @@
     <?php
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
     if (isset($_POST['submit'])) {
       if ($_POST['password'] == $_POST['confirm_password']) {
-        $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
+        $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = $username");
+        // var_dump($result);
         if (!$result) {
-          echo "Failed to create the account!";
+          var_dump($result);
+          echo "Username entered is a duplicate of existing username!";
         } else {
-            echo "Successfully created the account!";
+          $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
+          if (!$result) {
+            echo "Failed to create the account!";
+          } else {
+              echo "Successfully created the account!";
+          }
         }
       } else {
         echo "Password not the same as Confirm Password!";

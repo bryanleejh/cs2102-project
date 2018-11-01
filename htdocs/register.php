@@ -18,7 +18,12 @@
                 <label>Username</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
-            </div>    
+            </div>
+            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                <label>Username</label>
+                <input type="text" name="email" class="form-control" value="<?php echo $username; ?>">
+                <span class="help-block"><?php echo $email_err; ?></span>
+            </div>       
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
@@ -35,6 +40,22 @@
             </div>
             <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
-    </div>    
+    </div>
+    // memos
+    // username should be unique? because find row based on username in login.php
+    // should check passwork == confirm password    
+    <?php
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+    $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
+
+    
+    if (isset($_POST['Submit'])) {
+        if (!$result) {
+                echo "Failed to create the account!";
+            } else {
+                echo "Successfully created the account!";
+            }
+    }
+    ?>
 </body>
 </html>

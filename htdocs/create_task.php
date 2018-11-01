@@ -41,8 +41,7 @@
     include 'login.php';
     ob_end_clean();
 
-    // Connect to the database. Please change the password in the following line accordingly
-    $db     = pg_connect("host=localhost port=5432 dbname=project user=barkhyehyeon password=1824");
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
     $result = pg_query($db, "INSERT INTO tasks (owner_id,due_date,due_time,description) VALUES ('$row[user_id]', '$_POST[due_date]',
     '$_POST[due_time]', '$_POST[description]')");
 

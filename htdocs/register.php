@@ -10,8 +10,9 @@
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h2>Sign Up</h2>
+    <div class="wrapper" style="width:800px; margin:0 auto;">
+        <img src="logo.png" alt="Logo" style = " margin-left: auto; margin-right: auto; display: block;">
+        <h2>Sign up</h2>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -35,8 +36,8 @@
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" name="submit" value="submit">
-                <input type="reset" class="btn btn-default" name="reset" value="reset">
+                <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                <input type="reset" class="btn btn-default" name="reset" value="Reset">
             </div>
             <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
@@ -45,8 +46,7 @@
     // username should be unique? because find row based on username in login.php
     // should check password == confirm password -->
     <?php
-    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test"); 
     if (isset($_POST['submit'])) {
       if ($_POST['password'] == $_POST['confirm_password']) {
         $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");
@@ -62,8 +62,19 @@
           // var_dump($row);
           // echo "here2";
           if (!$row) {
+            var_dump($row);
+            $idRow = pg_query($db, "SELECT MIN(user_id) + 1 FROM users WHERE user_id + 1 NOT IN (SELECT user_id FROM users);");
+            $idArray = pg_fetch_array($idRow);
+            if(!$idRow){
+                $newID = 0;
+            }
+            else{
+                $newID = $idArray[0];
+            }
             var_dump($result);
-            $result = pg_query($db, "INSERT INTO users (user_name,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
+            $result = pg_query($db, "INSERT INTO users (user_id, user_name ,user_password,user_email) VALUES ('$newID', '$_POST[username]','$_POST[password]','$_POST[email]')");
+            var_dump($idRow);
+            var_dump($idArray);
             // var_dump($result);
             // var_dump($row);
             // echo "here3";

@@ -10,7 +10,8 @@
     </style>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper" style="width:800px; margin:0 auto;">
+        <img src="logo.png" alt="Logo" style = " margin-left: auto; margin-right: auto; display: block;">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         <form name="login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

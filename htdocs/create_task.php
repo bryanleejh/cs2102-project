@@ -40,16 +40,34 @@
     ob_start();
     include 'login.php';
     ob_end_clean();
+    
 
-    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-    $result = pg_query($db, "INSERT INTO tasks (owner_id,due_date,due_time,description) VALUES ('$row[user_id]', '$_POST[due_date]',
+    $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+    echo 'heree';
+    $taskRow = pg_query($db, "SELECT MIN(task_id) + 1 FROM tasks WHERE task_id + 1 NOT IN (SELECT task_id FROM tasks);");
+    $taskRowArray = pg_fetch_array($taskRow);
+    if($result === NULL){
+        $newID = 0;
+    }
+    else{
+        $newID = $taskRowArray[0];
+    }
+    var_dump($result);
+    echo 'here2';
+    echo $newID;
+    $result = pg_query($db, "INSERT INTO tasks (task_id, owner_id,due_date,due_time,description) VALUES ('$newID','2', '$_POST[due_date]',
     '$_POST[due_time]', '$_POST[description]')");
+    var_dump($newID);
+    var_dump($taskRowArray);
+    var_dump($taskRow);
 
     if (isset($_POST['create'])) {
         if (!$result) {
                 echo "Failed to create the task!";
+                var_dump($result);
             } else {
                 echo "Successfully created the task!";
+                var_dump($result);
             }
     }
     ?>

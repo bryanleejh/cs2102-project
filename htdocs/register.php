@@ -62,19 +62,19 @@
           // var_dump($row);
           // echo "here2";
           if (!$row) {
-            var_dump($row);
-            $idRow = pg_query($db, "SELECT MIN(user_id) + 1 FROM users WHERE user_id + 1 NOT IN (SELECT user_id FROM users);");
-            $idArray = pg_fetch_array($idRow);
-            if(!$idRow){
-                $newID = 0;
-            }
-            else{
-                $newID = $idArray[0];
-            }
+            #var_dump($row);
+            #$idRow = pg_query($db, "SELECT MIN(user_id) + 1 FROM users WHERE user_id + 1 NOT IN (SELECT user_id FROM users);");
+            #$idArray = pg_fetch_array($idRow);
+            #if(!$idRow){
+            #    $newID = 0;
+            #}
+            #else{
+            #    $newID = $idArray[0];
+            #}
             var_dump($result);
-            $result = pg_query($db, "INSERT INTO users (user_id, user_name ,user_password,user_email) VALUES ('$newID', '$_POST[username]','$_POST[password]','$_POST[email]')");
-            var_dump($idRow);
-            var_dump($idArray);
+            $result = pg_query($db, "INSERT INTO users (user_name ,user_password,user_email) VALUES ($_POST[username]','$_POST[password]','$_POST[email]')");
+            #var_dump($idRow);
+            #var_dump($idArray);
             // var_dump($result);
             // var_dump($row);
             // echo "here3";

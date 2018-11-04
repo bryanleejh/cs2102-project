@@ -68,7 +68,7 @@
         /*// random query with same output fields to test if table itself is displayed properly, cus assignment not implemented yet
         $result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = 4 and b.task_id = t.task_id and t.owner_id = u.user_id");*/
 
-        $result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description, b.amount FROM bid b, tasks t, users u WHERE '$row[user_id]' = b.bidder_id and b.task_id = t.task_id and t.owner_id = u.user_id and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
+        $result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description, b.amount FROM bids b, tasks t, users u WHERE '$row[user_id]' = b.bidder_id and b.task_id = t.task_id and t.owner_id = u.user_id and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
         $i = 0;
         echo '<table><tr>';
         while ($i < pg_num_fields($result))

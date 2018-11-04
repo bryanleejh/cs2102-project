@@ -46,7 +46,7 @@
     // username should be unique? because find row based on username in login.php
     // should check password == confirm password -->
     <?php
-    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test"); 
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
     if (isset($_POST['submit'])) {
       if ($_POST['password'] == $_POST['confirm_password']) {
         $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");
@@ -72,12 +72,7 @@
             #    $newID = $idArray[0];
             #}
             var_dump($result);
-            $result = pg_query($db, "INSERT INTO users (user_name ,user_password,user_email) VALUES ($_POST[username]','$_POST[password]','$_POST[email]')");
-            #var_dump($idRow);
-            #var_dump($idArray);
-            // var_dump($result);
-            // var_dump($row);
-            // echo "here3";
+            $result = pg_query($db, "INSERT INTO users (user_name ,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
             if (!$result) {
               echo "Failed to create the account!";
             } else {

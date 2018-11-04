@@ -26,27 +26,43 @@
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
+                <input type="submit" class="btn btn-primary" name = "submit" value="Login">
             </div>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
     <?php
     // Define variables
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    #$username = $_POST[username];
+    #echo "username is";
+    #echo $username;
+    #$password = $_POST[password];
+    #echo "password is";
+    #echo $password;
 
 
     // Connect to the database. Please change the password in the following line accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-    $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = $username");    // Query template
-    if (isset($_POST['login'])) {
-        if (!$result) {
-                echo "Login failed!";
-            } else {
-                echo "Login successful! Welcome!";
-            }
-    }
+
+
+    if (isset($_POST['submit'])) {
+        $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");    // Query template
+        $row = pg_fetch_all($result);
+        if($row){
+            var_dump($result);
+            $result = pg_query($db, "SELECT user_name FROM users WHERE user_password  = '$_POST[password]' AND user_name = '$_POST[username]'");
+            $row = pg_fetch_all($result);
+            if (!$row) {
+                    echo "Login failed! Wrong Password.";
+                } else {
+                    echo "Login successful! Welcome!";
+                    header("Location: menu.php");
+                    exit;
+                }
+        } else {
+            echo "Wrong user provided";
+        }
+    } 
     $row    = pg_fetch_assoc($result);    // To store the result row
 
 

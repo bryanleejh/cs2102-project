@@ -60,7 +60,6 @@
           $row = pg_fetch_all($result);
           // var_dump($result);
           // var_dump($row);
-          // echo "here2";
           if (!$row) {
             #var_dump($row);
             #$idRow = pg_query($db, "SELECT MIN(user_id) + 1 FROM users WHERE user_id + 1 NOT IN (SELECT user_id FROM users);");

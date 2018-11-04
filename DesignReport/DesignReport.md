@@ -9,7 +9,8 @@ CREATE TABLE users (
 user_id SERIAL PRIMARY KEY,
 user_name VARCHAR(64) NOT NULL,
 user_password VARCHAR(64) NOT NULL,
-user_email VARCHAR(64) NOT NULL);
+user_email VARCHAR(64) NOT NULL)
+CHECK (user_email LIKE "%@%.%");
 
 CREATE TABLE tasks (
 task_id SERIAL PRIMARY KEY,

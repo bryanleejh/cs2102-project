@@ -37,19 +37,20 @@
         </form>
     </div>
     <?php
-    $user = $_GET["user"];
-    echo "HELLO";
-    echo $user;
+    // $user = $_GET["user"];
 
-    // session_start();
+    echo "USER:";
+    echo $user;
+    echo "<br />";
+
+    session_start();
+    $userid = $_SESSION['user'];
     // echo "USER ID!!!: ";
-    // echo $_SESSION['user'];
-    // $userid = $_SESSION['user'];
     // echo $userid;
 
-    ob_start();
-    include 'login.php';
-    ob_end_clean();
+    // ob_start();
+    // include 'login.php';
+    // ob_end_clean();
     
 
     $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
@@ -58,9 +59,7 @@
     print_r($row);
 
     if (isset($_POST['create'])) {
-        $result = pg_query($db, "INSERT INTO tasks (owner_id, due_date, due_time, description) VALUES ('$userid', '$_POST[due_date]','$_POST[due_time]', '$_POST[description]')");
-        echo "HELLO WE REACHED HERE!!";
-        echo "<h1>Hello " . $_GET["user"] . "</h1>";
+        $result = pg_query($db, "INSERT INTO tasks (owner_id, due_date, due_time, description) VALUES ($userid, '$_POST[due_date]','$_POST[due_time]', '$_POST[description]')");
         if (!$result) {
                 echo "Failed to create the task!";
                 var_dump($result);

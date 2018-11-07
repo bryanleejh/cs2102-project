@@ -41,9 +41,9 @@
         $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_name = '$_POST[username]'");
         $row = pg_fetch_all($result);
         //print_r($row);
-        // session_start();
-        // echo "Session has started";
-        // $_SESSION['user'] = $row[user_id];
+        session_start();
+        echo "Session has started";
+        $_SESSION['user'] = $row[0][user_id];
         
         if($row){
             var_dump($result);
@@ -52,20 +52,15 @@
             // echo $row[0][user_id]; //this works jsyk
             echo "<br />";
 
-            $user = pg_fetch_result($result);
-            print_r($user);
-
             if (!$row) {
                     echo "Login failed! Wrong Password.";
                 } else {
-                    $user_result = pg_query($db, "SELECT user_id FROM users WHERE user_name = '$_POST[username]'");
-                    $user_row = pg_fetch_all($user_result);
-                    $user = $user_row[0]["user_id"];
-                    echo "USER:";
-                    echo $user;
-                    echo "<br />";
+                    // $user_result = pg_query($db, "SELECT user_id FROM users WHERE user_name = '$_POST[username]'");
+                    // $user_row = pg_fetch_all($user_result);
+                    // $user = $user_row[0]["user_id"];
                     echo "Login successful! Welcome!";
-                    header("Location: menu.php?user=".$user);
+                    header("Location: menu.php");
+                    // header("Location: menu.php?user=".$user);
                     exit;
                 }
         } else {

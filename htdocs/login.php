@@ -26,46 +26,52 @@
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" name = "submit" value="Login">
+                <input type="submit" class="btn btn-primary" name="submit" value="Login">
             </div>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
     <?php
-    // Define variables
-    #$username = $_POST[username];
-    #echo "username is";
-    #echo $username;
-    #$password = $_POST[password];
-    #echo "password is";
-    #echo $password;
-
 
     // Connect to the database. Please change the password in the following line accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
-
     if (isset($_POST['submit'])) {
-        $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");    // Query template
+
+        $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_name = '$_POST[username]'");
         $row = pg_fetch_all($result);
+        //print_r($row);
+        // session_start();
+        // echo "Session has started";
+        // $_SESSION['user'] = $row[user_id];
+        
         if($row){
             var_dump($result);
-            $result = pg_query($db, "SELECT user_name FROM users WHERE user_password  = '$_POST[password]' AND user_name = '$_POST[username]'");
+            $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_password  = '$_POST[password]' AND user_name = '$_POST[username]'");
             $row = pg_fetch_all($result);
+            // echo $row[0][user_id]; //this works jsyk
+            echo "<br />";
+
+            $user = pg_fetch_result($result);
+            print_r($user);
+
             if (!$row) {
                     echo "Login failed! Wrong Password.";
                 } else {
+                    $user_result = pg_query($db, "SELECT user_id FROM users WHERE user_name = '$_POST[username]'");
+                    $user_row = pg_fetch_all($user_result);
+                    $user = $user_row[0]["user_id"];
+                    echo "USER:";
+                    echo $user;
+                    echo "<br />";
                     echo "Login successful! Welcome!";
-                    header("Location: menu.php");
+                    header("Location: menu.php?user=".$user);
                     exit;
                 }
         } else {
             echo "Wrong user provided";
         }
     } 
-    $row    = pg_fetch_assoc($result);    // To store the result row
-
-
 
     ?>
 </body>

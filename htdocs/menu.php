@@ -10,11 +10,13 @@
 <body>
     <div class="wrapper" style="width:800px; margin:0 auto;">
         <img class = "image" src="logo.png" alt="Logo" style = " margin-left: auto; margin-right: auto; display: block;">
-        <h2 align="center">MY TASKS  </h2>
+        <h2 align="center"> MY TASKS </h2>
         <form name="login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <button type="button" class="btn btn-info">To Do</button>
-            <button type="button" class="btn btn-warning">Assign Task</button>
-            <input type="submit" class="btn btn-primary" name="submit" value="Create Task"/>
+<!--             <button type="button" class="btn btn-info">To Do</button>
+            <button type="button" class="btn btn-warning">Assign Task</button> -->
+            <input type="submit" class="btn btn-info" name="todo" value="To Do"/>
+            <input type="submit" class="btn btn-warning" name="assign" value="Assign Task"/>
+            <input type="submit" class="btn btn-primary" name="create" value="Create Task"/>
         </form>
         
 
@@ -25,9 +27,17 @@
         // echo $userid;
 
         // $user = $_GET["user"];
+        if (isset($_POST["todo"])) {     
+            header("Location: to_do.php");
+            exit;
+        }
 
+        if (isset($_POST["assign"])) {     
+            header("Location: assign_task.php");
+            exit;
+        }
         
-        if (isset($_POST["submit"])) {     
+        if (isset($_POST["create"])) {     
             header("Location: create_task.php");
             exit;
         }

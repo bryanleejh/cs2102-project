@@ -32,7 +32,7 @@
                 <span class="help-block"><?php echo $description_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-success" name="create" value="Create">
+                <input type="submit" class="btn btn-success" name="create_task" value="Create">
             </div>
         </form>
     </div>
@@ -45,8 +45,8 @@
 
     session_start();
     $userid = $_SESSION['user'];
-    // echo "USER ID!!!: ";
-    // echo $userid;
+    echo "USER ID!!!: ";
+    echo $userid;
 
     // ob_start();
     // include 'login.php';
@@ -58,7 +58,7 @@
     var_dump($result);
     print_r($row);
 
-    if (isset($_POST['create'])) {
+    if (isset($_POST['create_task'])) {
         $result = pg_query($db, "INSERT INTO tasks (owner_id, due_date, due_time, description) VALUES ($userid, '$_POST[due_date]','$_POST[due_time]', '$_POST[description]')");
         if (!$result) {
                 echo "Failed to create the task!";

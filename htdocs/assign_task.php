@@ -38,6 +38,11 @@
         </form> -->
     </div>
     <?php
+    session_start();
+    $userid = $_SESSION['user'];
+    echo "USER ID!!!: ";
+    echo $userid;
+
     // place holder
     /*ob_start();
     include 'login.php';

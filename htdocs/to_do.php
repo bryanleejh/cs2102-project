@@ -24,6 +24,11 @@
     <div class="wrapper">
         <h2>To Do</h2>
         <?php
+        session_start();
+        $userid = $_SESSION['user'];
+        echo "USER ID!!!: ";
+        echo $userid;
+
         echo '<h5>' . 'Tasks To Do' . '</h5>';
         ob_start();
         include 'login.php';

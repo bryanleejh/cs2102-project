@@ -6,6 +6,15 @@
         body{ font: 14px sans-serif; }
         .wrapper{ width: 350px; padding: 20px; }
     </style>
+    <?php
+    session_start();
+    $userid = $_SESSION['user'];
+    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+    $result = pg_query($db, "SELECT u.user_name FROM users u WHERE u.user_id = $userid");
+    $fetch_assoc = pg_fetch_assoc($result);
+    $who_is_logged_in = $fetch_assoc[user_name];
+
+    ?>
 </head>
 <body>
     <div class="wrapper" style="width:800px; margin:0 auto;">
@@ -18,7 +27,7 @@
             <input type="submit" class="btn btn-success" name="create" value="Create Task"/>
             <input type="submit" class="btn btn-danger" name="signout" value="Sign Out"/>
         </form>
-        
+
 
         <?php
         session_start();
@@ -27,27 +36,27 @@
         // echo $userid;
 
         // $user = $_GET["user"];
-        if (isset($_POST["alltasks"])) {     
+        if (isset($_POST["alltasks"])) {
             header("Location: all_tasks.php");
             exit;
         }
 
-        if (isset($_POST["todo"])) {     
+        if (isset($_POST["todo"])) {
             header("Location: to_do.php");
             exit;
         }
 
-        if (isset($_POST["assign"])) {     
+        if (isset($_POST["assign"])) {
             header("Location: assign_task.php");
             exit;
         }
-        
-        if (isset($_POST["create"])) {     
+
+        if (isset($_POST["create"])) {
             header("Location: create_task.php");
             exit;
         }
 
-        if (isset($_POST["signout"])) {     
+        if (isset($_POST["signout"])) {
             header("Location: login.php");
             exit;
         }

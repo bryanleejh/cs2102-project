@@ -16,6 +16,7 @@
             <input type="submit" class="btn btn-info" name="todo" value="To Do"/>
             <input type="submit" class="btn btn-warning" name="assign" value="Assign Task"/>
             <input type="submit" class="btn btn-success" name="create" value="Create Task"/>
+            <input type="submit" class="btn btn-danger" name="signout" value="Sign Out"/>
         </form>
         
 
@@ -43,6 +44,11 @@
         
         if (isset($_POST["create"])) {     
             header("Location: create_task.php");
+            exit;
+        }
+
+        if (isset($_POST["signout"])) {     
+            header("Location: login.php");
             exit;
         }
 

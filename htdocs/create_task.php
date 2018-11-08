@@ -49,7 +49,7 @@
     // ob_end_clean();
     
 
-    $db = pg_connect("host=localhost port=5432 dbname=postgres user=tahatehseen password=Postgre99");
+    $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
     var_dump($result);
     print_r($row);

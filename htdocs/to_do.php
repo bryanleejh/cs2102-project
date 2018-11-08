@@ -42,7 +42,7 @@
         include 'login.php';
         ob_end_clean();
 
-        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=tahatehseen password=Postgre99");
+        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
         $result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description FROM is_picked_for p, tasks t, users u, bids b WHERE b.bidder_id = $userid and p.bid_id = b.bid_id and p.task_id = t.task_id and t.owner_id = u.user_id");
 

@@ -51,7 +51,7 @@
         }
         echo '</tr>';
 
-        while ($row = pg_fetch_row($result))
+        while ($row = pg_fetch_row($result)) 
         {
             echo '<tr>';
             $count = count($row);

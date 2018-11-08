@@ -38,13 +38,16 @@
 
     if (isset($_POST['submit'])) {
 
-        $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_name = '$_POST[username]'");
+        $result = pg_query($db, "SELECT user_id, user_name, is_admin FROM users WHERE user_name = '$_POST[username]'");
         $row = pg_fetch_all($result);
+        $is_admin = $row[0][is_admin];
+        // echo $is_admin;
         //print_r($row);
+
         session_start();
         echo "Session has started";
         $_SESSION['user'] = $row[0][user_id];
-
+        
         if($row){
             var_dump($result);
             $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_password  = '$_POST[password]' AND user_name = '$_POST[username]'");
@@ -59,14 +62,18 @@
                     // $user_row = pg_fetch_all($user_result);
                     // $user = $user_row[0]["user_id"];
                     echo "Login successful! Welcome!";
-                    header("Location: all_tasks.php");
-                    // header("Location: menu.php?user=".$user);
+
+                    if ($is_admin=="t") {
+                        header("Location: index.php");
+                    } else {
+                        header("Location: menu.php");
+                    }
                     exit;
                 }
         } else {
             echo "Wrong user provided";
         }
-    }
+    } 
 
     ?>
 </body>

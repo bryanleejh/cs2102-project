@@ -3,8 +3,23 @@
   <title>UPDATE PostgreSQL data with PHP</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style>li {list-style: none;}</style>
+  <?php 
+    $result = pg_query($db, "SELECT user_id, user_name, is_admin FROM users WHERE user_name = '$_POST[username]'");
+    $row = pg_fetch_all($result);
+    $is_admin = $row[0][is_admin]; 
+    
+    if ($is_admin=="t") {
+        // header("Location: index.php");
+    } else {
+        header("Location: login.php");
+    }
+    exit;
+  ?>
 </head>
 <body>
+  <div class="menu">
+        <?php include 'menu.php';?>
+  </div>
   <h2>Supply user data and enter to create</h2>
   <ul>
     <form name="create_user" action="index.php" method="POST" >

@@ -36,7 +36,7 @@
 
         $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
         // Query to display table of all available tasks
-        $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid");
+        $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid ORDER BY t.due_date DESC");
 
         //$result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description FROM is_picked_for p, tasks t, users u WHERE '$row[user_id]' = p.bidder_id and p.task_id = t.task_id and t.owner_id = u.user_id");
 
@@ -51,7 +51,7 @@
         }
         echo '</tr>';
 
-        while ($row = pg_fetch_row($result)) 
+        while ($row = pg_fetch_row($result))
         {
             echo '<tr>';
             $count = count($row);

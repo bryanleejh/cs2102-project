@@ -23,6 +23,11 @@
     </div>
     <div class="wrapper">
         <h2>All Available Tasks</h2>
+        <form name='search_bar' action='all_tasks.php' method='POST' >
+        <li>Search For Tasks With Description</li>
+        <li><input type='text' name='search_bar' value='' /></li>
+        <li><input type='submit' name='search' /></li>
+        </form>
         <?php
         session_start();
         $userid = $_SESSION['user'];
@@ -42,6 +47,14 @@
 
         $i = 0;
         echo '<table width="300%"><tr>';
+
+        if (isset($_POST['search'])) { // search
+          $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name
+            FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id
+            NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid AND t.description LIKE '%$_POST[search_bar]%' ORDER BY t.due_date");
+          // $row    = pg_fetch_assoc($result);
+        }
+
         while ($i < pg_num_fields($result))
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
@@ -67,6 +80,8 @@
         }
         pg_free_result($result);
         echo '</table>';
+
+
 
         ?>
 </body>

@@ -14,10 +14,6 @@
     $fetch_assoc = pg_fetch_assoc($result);
     $who_is_logged_in = $fetch_assoc[user_name];
 
-    // print_r($who_is_logged_in);
-    // while($row = pg_fetch_assoc($result[user_name])) {
-    //    print_r($row);
-    // }
     ?>
 </head>
 <body>

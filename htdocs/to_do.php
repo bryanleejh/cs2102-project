@@ -7,14 +7,22 @@
         body{ font: 14px sans-serif; }
         .wrapper{ width: 350px; padding: 20px; }
 
+          }
           table {
-            width: 100%;
-            min-width: 500px;
-          }
-          th, td {
-            padding: 20px;
-            border: 1px solid #444444;
-          }
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
     </style>
 </head>
 <body>
@@ -34,17 +42,17 @@
         include 'login.php';
         ob_end_clean();
 
-        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=tahatehseen password=Postgre99");
 
         $result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description FROM is_picked_for p, tasks t, users u, bids b WHERE b.bidder_id = $userid and p.bid_id = b.bid_id and p.task_id = t.task_id and t.owner_id = u.user_id");
 
         $i = 0;
-        echo '<table><tr>';
+        echo '<table width="175%"><tr>';
         while ($i < pg_num_fields($result))
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
             $fieldName = str_replace("user","owner",$fieldName);
-            echo '<td>' . ucwords($fieldName) . '</td>';
+            echo '<th>' . ucwords($fieldName) . '</th>';
             $i = $i + 1;
         }
         echo '</tr>';
@@ -72,12 +80,12 @@
         $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
 
         $i = 0;
-        echo '<table><tr>';
+        echo '<table width="175%"><tr>';
         while ($i < pg_num_fields($result))
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
             $fieldName = str_replace("user","bidder",$fieldName);
-            echo '<td>' . ucwords($fieldName) . '</td>';
+            echo '<th>' . ucwords($fieldName) . '</th>';
             $i = $i + 1;
         }
         echo '</tr>';

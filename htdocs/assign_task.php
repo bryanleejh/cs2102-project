@@ -15,7 +15,23 @@
             padding: 20px;
             border: 1px solid #444444;
           }
-    </style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
 </head>
 <body>
     <div class="menu">
@@ -34,7 +50,7 @@
         include 'login.php';
         ob_end_clean();
 
-        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=tahatehseen password=Postgre99");
         $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
 
         $i = 0;
@@ -43,10 +59,10 @@
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
             $fieldName = str_replace("user","bidder",$fieldName);
-            echo '<td>' . ucwords($fieldName) . '</td>';
+            echo '<th>' . ucwords($fieldName) . '</th>';
             $i = $i + 1;
         }
-        echo '<td> Assign to this Bidder </td>';
+        echo '<th> Assign to this Bidder </th>';
         echo '</tr>';
 
         while ($row = pg_fetch_row($result)) 
@@ -64,15 +80,24 @@
                 $y = $y + 1;
             }
             // echo '<td> <button type="button">Assign</button> </td>';
-            echo '<td><button type="submit" formaction="register.php">Assign</button></td>';
+            echo "<td>";
+            echo "<form>"; 
+            echo "<form action='login.php' method='post'>";
+            echo "<input type='submit' name='submit' value='submit'>";
+            echo "</form>";
+            echo "</td>";
+            // echo '<td><button type="submit" formaction="register.php">Assign</button></td>';
             echo '</tr>';
             // echo "<form>";
         // echo "<form action='tag.php' method='post'>";
         // echo "<input type='submit' name='submit'>";
         // echo "</form>";
         }
+        
         pg_free_result($result);
         echo '</table>';
+        if(isset($_POST['submit'])) {
+            echo "hello";}
         ?>
 </body>
 </html>

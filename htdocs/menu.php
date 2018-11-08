@@ -12,11 +12,10 @@
         <img class = "image" src="logo.png" alt="Logo" style = " margin-left: auto; margin-right: auto; display: block;">
         <h2 align="center"> MY TASKS </h2>
         <form name="login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-<!--             <button type="button" class="btn btn-info">To Do</button>
-            <button type="button" class="btn btn-warning">Assign Task</button> -->
+            <input type="submit" class="btn btn-primary" name="alltasks" value="All Tasks"/>
             <input type="submit" class="btn btn-info" name="todo" value="To Do"/>
             <input type="submit" class="btn btn-warning" name="assign" value="Assign Task"/>
-            <input type="submit" class="btn btn-primary" name="create" value="Create Task"/>
+            <input type="submit" class="btn btn-success" name="create" value="Create Task"/>
         </form>
         
 
@@ -27,6 +26,11 @@
         // echo $userid;
 
         // $user = $_GET["user"];
+        if (isset($_POST["alltasks"])) {     
+            header("Location: all_tasks.php");
+            exit;
+        }
+
         if (isset($_POST["todo"])) {     
             header("Location: to_do.php");
             exit;

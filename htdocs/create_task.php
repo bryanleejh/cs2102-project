@@ -39,14 +39,10 @@
     <?php
     // $user = $_GET["user"];
 
-    echo "USER:";
-    echo $user;
-    echo "<br />";
-
     session_start();
     $userid = $_SESSION['user'];
-    echo "USER ID!!!: ";
-    echo $userid;
+    // echo "USER ID!!!: ";
+    // echo $userid;
 
     // ob_start();
     // include 'login.php';

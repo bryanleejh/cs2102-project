@@ -44,7 +44,7 @@
         session_start();
         echo "Session has started";
         $_SESSION['user'] = $row[0][user_id];
-        
+
         if($row){
             var_dump($result);
             $result = pg_query($db, "SELECT user_id, user_name FROM users WHERE user_password  = '$_POST[password]' AND user_name = '$_POST[username]'");
@@ -59,14 +59,14 @@
                     // $user_row = pg_fetch_all($user_result);
                     // $user = $user_row[0]["user_id"];
                     echo "Login successful! Welcome!";
-                    header("Location: menu.php");
+                    header("Location: all_tasks.php");
                     // header("Location: menu.php?user=".$user);
                     exit;
                 }
         } else {
             echo "Wrong user provided";
         }
-    } 
+    }
 
     ?>
 </body>

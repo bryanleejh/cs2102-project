@@ -49,7 +49,7 @@
         ob_end_clean();
 
         $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-        $result = pg_query($db, "SELECT u.user_id, u.user_name, t.task_id, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
+        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
 
         $i = 0;
         echo '<table><tr>';

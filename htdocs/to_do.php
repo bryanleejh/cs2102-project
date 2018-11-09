@@ -83,14 +83,14 @@
 
         echo '<h5>' . 'Tasks Pending for Assignment' . '</h5>';
 
-        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p ORDER BY t.due_date)");
+        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE t.owner_id = u.user_id and b.task_id = t.task_id and b.bidder_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p ORDER BY t.due_date)");
 
         $i = 0;
         echo '<table width="175%"><tr>';
         while ($i < pg_num_fields($result))
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
-            $fieldName = str_replace("user","bidder",$fieldName);
+            $fieldName = str_replace("user","owner",$fieldName);
             echo '<th>' . ucwords($fieldName) . '</th>';
             $i = $i + 1;
         }

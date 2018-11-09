@@ -40,11 +40,11 @@
         $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
         $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid ORDER BY t.due_date");
 
-        
+
         echo '<table width="300%"><tr>';
 
         if (isset($_POST['search'])) { // search
-          $result = pg_query($db, "SELECT t.task_id, t.description, t.due_date, t.due_time, u.user_name
+          $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name
             FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id
             NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid AND t.description LIKE '%$_POST[search_bar]%' ORDER BY t.due_date");
         }
@@ -61,7 +61,7 @@
 
         $counter = 0;
 
-        while ($row = pg_fetch_row($result)) 
+        while ($row = pg_fetch_row($result))
         {
             echo '<tr>';
             $count = count($row);
@@ -75,7 +75,7 @@
             }
 
             echo "<td>";
-            
+
             echo "<form action='' method='post'>";
             echo "<input type='text' name='amount' id='amount' >";
             echo "<input type='submit' name='accept' value=$counter > ";

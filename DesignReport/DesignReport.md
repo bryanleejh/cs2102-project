@@ -9,7 +9,8 @@ CREATE TABLE users (
 user_id SERIAL PRIMARY KEY,
 user_name VARCHAR(64) NOT NULL,
 user_password VARCHAR(64) NOT NULL,
-user_email VARCHAR(64) NOT NULL)
+user_email VARCHAR(64) NOT NULL,
+is_admin BOOLEAN NOT NULL DEFAULT FALSE,
 CHECK (user_email LIKE "%@%.%"),
 CHECK (user_name NOT LIKE "%[^A-Z0-9*]%" AND LEN(user_name)>=5),
 CHECK (user_password LIKE "%[0-9]%" AND user_password LIKE "%[A-Z]%" 

@@ -24,7 +24,7 @@ due_time TIME NOT NULL,
 description VARCHAR(256) NOT NULL,
 FOREIGN KEY owner_id REFERENCES users(user_id) ON DELETE CASCADE),
 CHECK (due_date >= GetDate());
-;
+
 
 CREATE TABLE bids (
 bid_id SERIAL PRIMARY KEY,

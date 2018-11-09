@@ -33,7 +33,7 @@
         ob_end_clean();
 
         $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-        $result = pg_query($db, "SELECT t.description, bd.user_name as assignee, t.due_date, t.due_time FROM users o JOIN tasks t on o.user_id = t.owner_id JOIN is_picked_for i on i.task_id = t.task_id JOIN bids b on b.bid_id = i.bid_id JOIN users bd on b.bidder_id = bd.user_id WHERE o.user_id = $userid ORDER BY t.due_date");
+        $result = pg_query($db, "SELECT t.description, bd.user_name as bidder, t.due_date, t.due_time FROM users o JOIN tasks t on o.user_id = t.owner_id JOIN is_picked_for i on i.task_id = t.task_id JOIN bids b on b.bid_id = i.bid_id JOIN users bd on b.bidder_id = bd.user_id WHERE o.user_id = $userid ORDER BY t.due_date");
         echo "Here";
         echo $result;
         echo '<table width="300%"><tr>';

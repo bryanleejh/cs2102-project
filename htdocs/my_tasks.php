@@ -77,7 +77,7 @@
 
         if (isset($_POST['accept'])) {
             $rownumber = $_POST['accept'];
-            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id JOIN is_picked_for i on i.task_id = t.task_id JOIN bids b on b.bid_id = i.bid_id JOIN users bd on b.bidder_id = bd.user_id WHERE o.user_id = $userid ORDER BY t.due_date");
+            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id JOIN is_picked_for i on i.task_id = t.task_id JOIN bids b on b.bid_id = i.bid_id JOIN users bd on b.bidder_id = bd.user_id WHERE o.user_id = $userid ORDER BY t.due_date LIMIT 1 OFFSET $rownumber");
             $task = pg_fetch_assoc($result);
             $taskno = $task['task_id'];
             $result = pg_query($db, "DELETE FROM tasks WHERE task_id = $taskno;");
@@ -134,7 +134,8 @@
 
         if (isset($_POST['accept2'])) {
             $rownumber = $_POST['accept2'];
-            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id WHERE t.task_id NOT IN (SELECT task_id FROM is_picked_for) AND o.user_id = $userid ORDER BY t.due_date");
+            echo $rownumber;
+            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id WHERE t.task_id NOT IN (SELECT task_id FROM is_picked_for) AND o.user_id = $userid ORDER BY t.due_date LIMIT 1 OFFSET $rownumber");
             $task = pg_fetch_assoc($result);
             $taskno = $task['task_id'];
             $result = pg_query($db, "DELETE FROM tasks WHERE task_id = $taskno;");

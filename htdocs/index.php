@@ -8,11 +8,6 @@
     $row = pg_fetch_all($result);
     $is_admin = $row[0][is_admin]; 
     
-    if ($is_admin=="t") {
-    } else {
-        header("Location: login.php");
-    }
-    exit;
   ?>
 </head>
 <body>

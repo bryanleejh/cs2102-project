@@ -83,7 +83,7 @@
 
         echo '<h5>' . 'Tasks Bidded for, Pending for Assignment' . '</h5>';
 
-        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE t.owner_id = u.user_id and b.task_id = t.task_id and b.bidder_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p ORDER BY t.due_date)");
+        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE t.owner_id = u.user_id and b.task_id = t.task_id and b.bidder_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) ORDER BY t.due_date");
 
         $i = 0;
         echo '<table width="175%"><tr>';

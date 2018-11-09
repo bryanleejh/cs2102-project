@@ -51,25 +51,12 @@
       if ($_POST['password'] == $_POST['confirm_password']) {
         $result = pg_query($db, "SELECT user_name FROM users WHERE user_name = '$_POST[username]'");
         $row = pg_fetch_all($result);
-        // var_dump($result);
-        // var_dump($row);
-        // print_r("here1");
+
         if (!$row) {
           var_dump($result);
           $result = pg_query($db, "SELECT user_email FROM users WHERE user_email = '$_POST[email]'");
           $row = pg_fetch_all($result);
-          // var_dump($result);
-          // var_dump($row);
           if (!$row) {
-            #var_dump($row);
-            #$idRow = pg_query($db, "SELECT MIN(user_id) + 1 FROM users WHERE user_id + 1 NOT IN (SELECT user_id FROM users);");
-            #$idArray = pg_fetch_array($idRow);
-            #if(!$idRow){
-            #    $newID = 0;
-            #}
-            #else{
-            #    $newID = $idArray[0];
-            #}
             var_dump($result);
             $result = pg_query($db, "INSERT INTO users (user_name ,user_password,user_email) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
             if (!$result) {
@@ -78,11 +65,9 @@
               echo "Successfully created the account!";
             }
           } else {
-            // var_dump($result);
             echo "Email entered is a duplicate of existing email!";
           }
         } else {
-          // var_dump($result);
           echo "Username entered is a duplicate of existing username!";
         }
       } else {

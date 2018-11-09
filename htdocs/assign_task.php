@@ -42,8 +42,6 @@
         <?php
         session_start();
         $userid = $_SESSION['user'];
-        // echo "USER ID!!!: ";
-        // echo $userid;
 
         echo '<h5>' . 'Tasks To Assign' . '</h5>';
         ob_start();
@@ -66,34 +64,27 @@
         echo '</tr>';
 
         $counter = 0;
+
         while ($row = pg_fetch_row($result))
         {
             echo '<tr>';
-            // echo '<button type="button">Assign</button>';
             $count = count($row);
             $y = 0;
             while ($y < $count)
             {
                 $c_row = current($row);
                 echo '<td>' . $c_row . '</td>' ;
-                // . '<td><button>Sell</button><td>';
                 next($row);
                 $y = $y + 1;
             }
-            // echo '<td> <button type="button">Assign</button> </td>';
+            
             echo "<td>";
-            //echo "<form>"; 
             echo "<form action='' method='post'>";
             echo "<input type='submit' name='accept' value=$counter > ";
             echo "</form>";
             $counter = $counter + 1;
             echo "</td>";
-            // echo '<td><button type="submit" formaction="register.php">Assign</button></td>';
             echo '</tr>';
-            // echo "<form>";
-        // echo "<form action='tag.php' method='post'>";
-        // echo "<input type='submit' name='submit'>";
-        // echo "</form>";
         }
         pg_free_result($result);
 
@@ -101,17 +92,13 @@
             $rownumber = $_POST['accept'];
             $result = pg_query($db, "SELECT t.task_id, b.bid_id FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) ORDER BY user_id LIMIT 1 OFFSET $rownumber;");
             $bid = pg_fetch_assoc($result);
-            // echo $_POST['accept'];
             $bidder = $bid['bid_id'];
             $task = $bid['task_id'];
             echo $bidder;
             echo $task;
-            //$result = pg_query($db, "INSERT INTO is_picked_for (task_id, bid_id) VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')");
             $result = pg_query($db, "INSERT INTO is_picked_for(task_id, bid_id) VALUES ($task, $bidder);");
             echo $result;
-            // $result = pg_query($db, "SELECT u.user_id, t.task_id FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) ORDER BY user_id LIMIT 1 OFFSET $rownumber;");
-            // $results = pg_fetch_result($result);
-            //echo $result;
+            header("Refresh:0");
           }
 
         echo '</table>';

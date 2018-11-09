@@ -34,8 +34,6 @@
         <?php
         session_start();
         $userid = $_SESSION['user'];
-        // echo "USER ID!!!: ";
-        // echo $userid;
 
         echo '<h5>' . 'Tasks To Do' . '</h5>';
         ob_start();
@@ -55,7 +53,9 @@
             echo '<th>' . ucwords($fieldName) . '</th>';
             $i = $i + 1;
         }
+        echo '<th> Mark as Completed </th>';
         echo '</tr>';
+        $counter = 0;
 
         while ($row = pg_fetch_row($result)) 
         {
@@ -69,6 +69,13 @@
                 next($row);
                 $y = $y + 1;
             }
+
+            echo "<td>";
+            echo "<form action='' method='post'>";
+            echo "<input type='submit' name='done' value=$counter > ";
+            echo "</form>";
+            $counter = $counter + 1;
+            echo "</td>";
             echo '</tr>';
         }
         pg_free_result($result);
@@ -76,8 +83,7 @@
 
         echo '<h5>' . 'Tasks Pending for Assignment' . '</h5>';
 
-        // random query with same output fields to test if table itself is displayed properly, cus assignment not implemented yet
-        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p)");
+        $result = pg_query($db, "SELECT u.user_name, t.description, t.due_date, t.due_time, b.amount FROM bids b, tasks t, users u WHERE b.bidder_id = u.user_id and b.task_id = t.task_id and t.owner_id = $userid and t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p ORDER BY t.due_date)");
 
         $i = 0;
         echo '<table width="175%"><tr>';
@@ -105,6 +111,18 @@
             echo '</tr>';
         }
         pg_free_result($result);
+
+        if (isset($_POST['done'])) {
+            $rownumber = $_POST['done'];
+            echo $rownumber;
+            $result = pg_query($db, "SELECT t.task_id FROM is_picked_for p, tasks t, users u, bids b WHERE b.bidder_id = $userid and p.bid_id = b.bid_id and p.task_id = t.task_id and t.owner_id = u.user_id ORDER BY t.due_date LIMIT 1 OFFSET $rownumber;" );
+            $finished = pg_fetch_assoc($result);
+            $done_with = $finished['task_id'];
+            echo $done_with;
+            $result = pg_query($db, "DELETE FROM tasks WHERE task_id = $done_with;");
+            echo $result;
+            header("Refresh:0");
+          }
         echo '</table>';
         ?>
 </body>

@@ -34,15 +34,14 @@
     <?php
 
     // Connect to the database. Please change the password in the following line accordingly
-    $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
+    $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
 
     if (isset($_POST['submit'])) {
 
         $result = pg_query($db, "SELECT user_id, user_name, is_admin FROM users WHERE user_name = '$_POST[username]'");
         $row = pg_fetch_all($result);
         $is_admin = $row[0][is_admin];
-        // echo $is_admin;
-        //print_r($row);
+
 
         session_start();
         echo "Session has started";
@@ -58,9 +57,6 @@
             if (!$row) {
                     echo "Login failed! Wrong Password.";
                 } else {
-                    // $user_result = pg_query($db, "SELECT user_id FROM users WHERE user_name = '$_POST[username]'");
-                    // $user_row = pg_fetch_all($user_result);
-                    // $user = $user_row[0]["user_id"];
                     echo "Login successful! Welcome!";
 
                     if ($is_admin=="t") {

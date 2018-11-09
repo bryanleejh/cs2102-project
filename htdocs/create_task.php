@@ -37,16 +37,9 @@
         </form>
     </div>
     <?php
-    // $user = $_GET["user"];
 
     session_start();
     $userid = $_SESSION['user'];
-    // echo "USER ID!!!: ";
-    // echo $userid;
-
-    // ob_start();
-    // include 'login.php';
-    // ob_end_clean();
     
 
     $db = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");

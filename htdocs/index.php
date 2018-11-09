@@ -9,7 +9,6 @@
     $is_admin = $row[0][is_admin]; 
     
     if ($is_admin=="t") {
-        // header("Location: index.php");
     } else {
         header("Location: login.php");
     }

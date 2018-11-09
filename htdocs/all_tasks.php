@@ -31,8 +31,6 @@
         <?php
         session_start();
         $userid = $_SESSION['user'];
-        // echo "USER ID!!!: ";
-        // echo $userid;
 
         echo '<h5>' . 'Tasks you can bid for' . '</h5>';
         ob_start();
@@ -40,21 +38,17 @@
         ob_end_clean();
 
         $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=test");
-        // Query to display table of all available tasks
         $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid ORDER BY t.due_date");
 
-        //$result = pg_query($db, "SELECT u.user_name, t.due_date, t.due_time, t.description FROM is_picked_for p, tasks t, users u WHERE '$row[user_id]' = p.bidder_id and p.task_id = t.task_id and t.owner_id = u.user_id");
-
-        $i = 0;
+        
         echo '<table width="300%"><tr>';
 
         if (isset($_POST['search'])) { // search
-          $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time, u.user_name
+          $result = pg_query($db, "SELECT t.task_id, t.description, t.due_date, t.due_time, u.user_name
             FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id
             NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid AND t.description LIKE '%$_POST[search_bar]%' ORDER BY t.due_date");
-          // $row    = pg_fetch_assoc($result);
         }
-
+        $i = 0;
         while ($i < pg_num_fields($result))
         {
             $fieldName = str_replace("_"," ",pg_field_name($result, $i));
@@ -62,7 +56,10 @@
             echo '<td>' . ucwords($fieldName) . '</td>';
             $i = $i + 1;
         }
+        echo '<th> Make a bid </th>';
         echo '</tr>';
+
+        $counter = 0;
 
         while ($row = pg_fetch_row($result)) 
         {
@@ -76,9 +73,30 @@
                 next($row);
                 $y = $y + 1;
             }
+
+            echo "<td>";
+            
+            echo "<form action='' method='post'>";
+            echo "<input type='text' name='amount' id='amount' >";
+            echo "<input type='submit' name='accept' value=$counter > ";
+            echo "</form>";
+            $counter = $counter + 1;
+            echo "</td>";
             echo '</tr>';
+
         }
         pg_free_result($result);
+
+        if (isset($_POST['accept'])) {
+            $rownumber = $_POST['accept'];
+            $result = pg_query($db, "SELECT t.task_id FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.task_id NOT IN (SELECT p.task_id FROM is_picked_for p) AND t.owner_id <> $userid ORDER BY t.due_date LIMIT 1 OFFSET $rownumber;");
+            $task = pg_fetch_assoc($result);
+            $taskno = $task['task_id'];
+            $amount = $_POST['amount'];
+            $result = pg_query($db, "INSERT INTO bids(bidder_id, task_id, amount) VALUES ($userid, $taskno, $amount);");
+            echo "Bid successful!";
+          }
+
         echo '</table>';
 
 

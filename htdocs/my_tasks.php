@@ -38,9 +38,6 @@
         echo $result;
         echo '<table width="300%"><tr>';
 
-        if (isset($_POST['search2'])) { // search
-          $result = pg_query($db, "SELECT t.description, t.due_date, t.due_time FROM tasks t, users u WHERE t.owner_id = u.user_id AND t.owner_id = $userid AND t.description LIKE '%$_POST[search_bar2]%' ORDER BY t.due_date");
-        }
         $i = 0;
         while ($i < pg_num_fields($result))
         {
@@ -68,7 +65,6 @@
             }
 
             echo "<td>";
-            
             echo "<form action='' method='post'>";
             echo "<input type='submit' name='accept' value=$counter > ";
             echo "</form>";
@@ -138,7 +134,7 @@
 
         if (isset($_POST['accept2'])) {
             $rownumber = $_POST['accept2'];
-            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id WHERE t.task_id NOT IN (SELECT task_id FROM is_picked_for) AND o.user_id = 5 ORDER BY t.due_date");
+            $result = pg_query($db, "SELECT t.task_id FROM users o JOIN tasks t on o.user_id = t.owner_id WHERE t.task_id NOT IN (SELECT task_id FROM is_picked_for) AND o.user_id = $userid ORDER BY t.due_date");
             $task = pg_fetch_assoc($result);
             $taskno = $task['task_id'];
             $result = pg_query($db, "DELETE FROM tasks WHERE task_id = $taskno;");
